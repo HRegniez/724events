@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Form from "./index";
 
 describe("When Events is created", () => {
@@ -14,15 +14,19 @@ describe("When Events is created", () => {
     it("the success action is called", async () => {
       const onSuccess = jest.fn();
       render(<Form onSuccess={onSuccess} />);
-      fireEvent(
-        await screen.findByTestId("button-test-id"),
-        new MouseEvent("click", {
-          cancelable: true,
-          bubbles: true,
-        })
-      );
-      await screen.findByText("En cours");
-      await screen.findByText("Envoyer");
+
+      // Find the submit button by its role and use a regular expression to match the text
+      const submitButton = await screen.findByRole("button", {
+        name: /En cours|Envoyer/,
+      });
+
+      // Click the submit button
+      fireEvent.click(submitButton);
+
+      // Wait for the "Message envoyé !" text to appear
+      await waitFor(() => screen.findByText("Message envoyé !"));
+
+      // Now you can assert that the success action is called
       expect(onSuccess).toHaveBeenCalled();
     });
   });

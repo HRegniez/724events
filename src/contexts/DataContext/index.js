@@ -19,36 +19,28 @@ export const api = {
 export const DataProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
-  const [sortedEvents, setSortedEvents] = useState(null); // Add sortedEvents state
-
+  const [last, setLast] = useState(null);
   const getData = useCallback(async () => {
     try {
-      const eventData = await api.loadData();
-      const sortedEventData = eventData?.focus.sort((evtA, evtB) =>
-        new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
-      );
-      setData(eventData);
-      setSortedEvents(sortedEventData);
+      const loadedData = await api.loadData();
+      setData(loadedData);
+      setLast(loadedData.events[loadedData.events.length - 1])
     } catch (err) {
       setError(err);
     }
   }, []);
-  // cleaned up expression
   useEffect(() => {
-    if (!data) { 
-      getData();
-    } 
+    if (data) return;
+    getData();
   }, [data, getData]);
   
-  const last = sortedEvents?.[0]; // Get the most recent event
-
   return (
     <DataContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         data,
         error,
-        last,
+        last
       }}
     >
       {children}

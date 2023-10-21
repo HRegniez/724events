@@ -11,12 +11,7 @@ const EventCard = ({
   label,
   small = false,
   ...props
-}) => 
-// {
-  // const hasPropsLoaded = imageSrc && date && label; // Check if necessary props are loaded
-  // console.log(hasPropsLoaded)
-  // return 
-  (
+}) => (
     <div
       data-testid="card-testid"
       className={`EventCard${small ? " EventCard--small" : ""}`}
@@ -32,8 +27,6 @@ const EventCard = ({
       </div>
     </div>
   );
-// };
-
 
 EventCard.propTypes = {
   imageSrc: PropTypes.string.isRequired,

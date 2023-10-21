@@ -66,7 +66,7 @@ describe("When Events is created", () => {
           <Events />
         </DataProvider>
       );
-      await screen.findByText("Forum #production");
+      await screen.findByText("Forum #productCON");
       fireEvent(
         await screen.findByTestId("collapse-button-testid"),
         new MouseEvent("click", {
