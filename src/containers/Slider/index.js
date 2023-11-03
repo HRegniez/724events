@@ -38,7 +38,7 @@ const Slider = () => {
                 </div>
               </div>
             </div>
-            <div className="SlideCard__paginationContainer" key={event.description}>
+            <div className="SlideCard__paginationContainer" >
               <div className="SlideCard__pagination">
                 {byDateDesc.map((_, radioIdx) => (
                   <input
