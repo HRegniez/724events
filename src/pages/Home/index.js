@@ -1,3 +1,4 @@
+import { useState,  useEffect } from "react";
 import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
@@ -10,10 +11,22 @@ import Logo from "../../components/Logo";
 import Icon from "../../components/Icon";
 import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
-import { useData } from "../../contexts/DataContext";
+import { useData} from "../../contexts/DataContext";
+
 
 const Page = () => {
-  const {last} = useData()
+  const { data } = useData();
+  const [last, setLast] = useState(null);
+  useEffect(() => {
+    if (last === null) {  // if last = null then updating it
+      const byDateDesc = data?.events.sort((evtA, evtB) =>  // Sort events
+        new Date(evtB?.date) < new Date(evtA?.date) ? -1 : 1
+      );
+      if (byDateDesc) {
+        setLast(byDateDesc[0]);  // set last
+      }
+    }
+  }, [data, last]);
   return <>
     <header>
       <Menu />
